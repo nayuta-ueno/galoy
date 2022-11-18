@@ -280,7 +280,7 @@ export const startApolloServer = async ({
       algorithms: jwtAlgorithms,
       credentialsRequired: true,
       requestProperty: "token",
-      issuer: "galoy.io",
+      issuer: "nayuta.ueno",
     }),
   )
 
