@@ -563,7 +563,7 @@ export const configSchema = {
       additionalProperties: false,
       default: {
         playground: true,
-        playgroundUrl: "https://api.staging.galoy.io/graphql",
+        playgroundUrl: "http://localhost:4002/graphql",
       },
     },
     userActivenessMonthlyVolumeThreshold: { type: "integer", default: 100 },
