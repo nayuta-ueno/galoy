@@ -1,0 +1,63 @@
+version: "2"
+services:
+  bitcoind:
+    environment:
+      - NETWORK=${NETWORK}
+    volumes:
+      - ${PWD}/dev/bitcoind/${NETWORK}:/data/.bitcoin
+  lnd1:
+    environment:
+      - NETWORK=${NETWORK}
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd1/data:/root/.lnd/data
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd1/letsencrypt:/root/.lnd/letsencrypt
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd1/logs:/root/.lnd/logs
+      - ${PWD}/dev/lnd/${NETWORK}/password.txt:/root/.lnd/password.txt
+    command:
+      - |
+        cp /root/.lnd/admin.macaroon /root/.lnd/data/chain/bitcoin/${NETWORK}/admin.macaroon &&
+        if [ ! -f /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db ]; then cp /root/.lnd/macaroons.db /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db; fi &&
+        if [ ! -f /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db ]; then cp /root/.lnd/wallet.db /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db; fi &&
+        /bin/lnd
+  lnd2:
+    environment:
+      - NETWORK=${NETWORK}
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd2/data:/root/.lnd/data
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd2/letsencrypt:/root/.lnd/letsencrypt
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd2/logs:/root/.lnd/logs
+      - ${PWD}/dev/lnd/${NETWORK}/password.txt:/root/.lnd/password.txt
+    command:
+      - |
+        cp /root/.lnd/admin.macaroon /root/.lnd/data/chain/bitcoin/${NETWORK}/admin.macaroon &&
+        if [ ! -f /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db ]; then cp /root/.lnd/macaroons.db /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db; fi &&
+        if [ ! -f /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db ]; then cp /root/.lnd/wallet.db /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db; fi &&
+        /bin/lnd
+  lnd-outside-1:
+    environment:
+      - NETWORK=${NETWORK}
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd-outside-1/data:/root/.lnd/data
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd-outside-1/letsencrypt:/root/.lnd/letsencrypt
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd-outside-1/logs:/root/.lnd/logs
+      - ${PWD}/dev/lnd/${NETWORK}/password.txt:/root/.lnd/password.txt
+    command:
+      - |
+        cp /root/.lnd/admin.macaroon /root/.lnd/data/chain/bitcoin/${NETWORK}/admin.macaroon
+        if [ ! -f /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db ]; then cp /root/.lnd/macaroons.db /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db; fi &&
+        if [ ! -f /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db ]; then cp /root/.lnd/wallet.db /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db; fi &&
+        /bin/lnd
+  lnd-outside-2:
+    environment:
+      - NETWORK=${NETWORK}
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd-outside-2/data:/root/.lnd/data
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd-outside-2/letsencrypt:/root/.lnd/letsencrypt
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd-outside-2/logs:/root/.lnd/logs
+      - ${PWD}/dev/lnd/${NETWORK}/password.txt:/root/.lnd/password.txt
+    command:
+      - |
+        cp /root/.lnd/admin.macaroon /root/.lnd/data/chain/bitcoin/${NETWORK}/admin.macaroon
+        if [ ! -f /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db ]; then cp /root/.lnd/macaroons.db /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db; fi &&
+        if [ ! -f /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db ]; then cp /root/.lnd/wallet.db /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db; fi &&
+        /bin/lnd

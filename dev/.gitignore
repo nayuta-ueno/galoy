@@ -6,3 +6,8 @@
 lnd/loopserver/*
 # except regtest
 !/dev/lnd/regtest/*
+
+bitcoind/**/datadir/*
+bitcoind/**/regtest/*
+bitcoind/**/signet/*
+lnd/**/datadir-lnd*

@@ -112,6 +112,26 @@ export const fundWalletIdFromOnchain = async ({
   return toSats(balance)
 }
 
+export const fundWalletIdFromOnchainNoWait = async ({
+  walletId,
+  amountInBitcoin,
+  lnd,
+}: {
+  walletId: WalletId
+  amountInBitcoin: number
+  lnd: AuthenticatedLnd
+}): Promise<void> => {
+  const address = await createOnChainAddress(walletId)
+  if (address instanceof Error) throw address
+
+  await sendToAddress({
+    walletClient: bitcoindOutside,
+    address,
+    amount: amountInBitcoin,
+  })
+  // await waitUntilBlockHeight({ lnd })
+}
+
 export const createColdStorageWallet = async (walletName: string) => {
   const client = await getBitcoindClient()
   const wallet = await client.createWallet({
