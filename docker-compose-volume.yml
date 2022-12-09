@@ -1,5 +1,8 @@
 version: "2"
 services:
+  mongodb:
+    volumes:
+      - ${PWD}/dev/mongodb:/bitnami/mongodb
   bitcoind:
     environment:
       - NETWORK=${NETWORK}

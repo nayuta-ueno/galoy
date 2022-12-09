@@ -12,7 +12,11 @@ import {
 } from "test/helpers"
 
 beforeAll(async () => {
-  await createMandatoryUsers()
+  try {
+    await createMandatoryUsers()
+  } catch (e: any) {
+    expect(e.message).toContain('E11000')
+  }
 })
 
 describe("Bitcoind", () => {
@@ -20,7 +24,6 @@ describe("Bitcoind", () => {
     const { onChainWallet: walletName } = getColdStorageConfig()
     const walletsBefore = await bitcoindClient.listWallets()
     if (walletsBefore.includes(walletName)) {
-      console.log('SKIP: have wallet: specter/coldstorage')
       return
     }
     const { name } = await createColdStorageWallet(walletName)
@@ -33,7 +36,6 @@ describe("Bitcoind", () => {
     const walletName = "outside"
     const walletsBefore = await bitcoindClient.listWallets()
     if (walletsBefore.includes(walletName)) {
-      console.log('SKIP: have wallet: outside')
       return
     }
     const { name } = await bitcoindClient.createWallet({ walletName })
@@ -45,12 +47,10 @@ describe("Bitcoind", () => {
   it("funds lnd1 node", async () => {
     const amount = 0.0005
     const { chain_balance: initialBalance } = await getChainBalance({ lnd: lnd1 })
-    console.log(`balance: ${initialBalance}`)
     if (initialBalance > 80000) {
-      console.log('SKIP: have balance: lnd1')
       return
     }
-    const sats = initialBalance + btc2sat(amount)
+    // const sats = initialBalance + btc2sat(amount)
 
     // lnd1 へ BTC送金
     const funderWalletId = await getFunderWalletId()

@@ -11,3 +11,5 @@ bitcoind/**/datadir/*
 bitcoind/**/regtest/*
 bitcoind/**/signet/*
 lnd/**/datadir-lnd*
+
+mongodb/
