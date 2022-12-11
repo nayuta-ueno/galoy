@@ -1,0 +1,53 @@
+version: "2"
+services:
+  bitcoind:
+    volumes:
+      - ${PWD}/dev/bitcoind/${NETWORK}/bitcoin.conf:/data/.bitcoin/bitcoin.conf
+  lnd1:
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/lnd1.admin.macaroon:/root/.lnd/admin.macaroon
+      - ${PWD}/dev/lnd/${NETWORK}/lnd1.wallet.db:/root/.lnd/wallet.db
+      - ${PWD}/dev/lnd/${NETWORK}/lnd1.macaroons.db:/root/.lnd/macaroons.db
+    command:
+      - |
+        mkdir -p /root/.lnd/data/chain/bitcoin/${NETWORK}/
+        cp /root/.lnd/wallet.db /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db
+        cp /root/.lnd/macaroons.db /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db
+        cp /root/.lnd/admin.macaroon /root/.lnd/data/chain/bitcoin/${NETWORK}/admin.macaroon
+        /bin/lnd
+  lnd2:
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/lnd2.admin.macaroon:/root/.lnd/admin.macaroon
+      - ${PWD}/dev/lnd/${NETWORK}/lnd2.wallet.db:/root/.lnd/wallet.db
+      - ${PWD}/dev/lnd/${NETWORK}/lnd2.macaroons.db:/root/.lnd/macaroons.db
+    command:
+      - |
+        mkdir -p /root/.lnd/data/chain/bitcoin/${NETWORK}/
+        cp /root/.lnd/wallet.db /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db
+        cp /root/.lnd/macaroons.db /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db
+        cp /root/.lnd/admin.macaroon /root/.lnd/data/chain/bitcoin/${NETWORK}/admin.macaroon
+        /bin/lnd
+  lnd-outside-1:
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/lnd-outside-1.wallet.db:/root/.lnd/wallet.db
+      - ${PWD}/dev/lnd/${NETWORK}/lnd-outside-1.macaroons.db:/root/.lnd/macaroons.db
+      - ${PWD}/dev/lnd/${NETWORK}/lnd-outside-1.admin.macaroon:/root/.lnd/admin.macaroon
+    command:
+      - |
+        mkdir -p /root/.lnd/data/chain/bitcoin/${NETWORK}/
+        cp /root/.lnd/wallet.db /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db
+        cp /root/.lnd/macaroons.db /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db
+        cp /root/.lnd/admin.macaroon /root/.lnd/data/chain/bitcoin/${NETWORK}/admin.macaroon
+        /bin/lnd
+  lnd-outside-2:
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/lnd-outside-2.wallet.db:/root/.lnd/wallet.db
+      - ${PWD}/dev/lnd/${NETWORK}/lnd-outside-2.macaroons.db:/root/.lnd/macaroons.db
+      - ${PWD}/dev/lnd/${NETWORK}/lnd-outside-2.admin.macaroon:/root/.lnd/admin.macaroon
+    command:
+      - |
+        mkdir -p /root/.lnd/data/chain/bitcoin/${NETWORK}/
+        cp /root/.lnd/wallet.db /root/.lnd/data/chain/bitcoin/${NETWORK}/wallet.db
+        cp /root/.lnd/macaroons.db /root/.lnd/data/chain/bitcoin/${NETWORK}/macaroons.db
+        cp /root/.lnd/admin.macaroon /root/.lnd/data/chain/bitcoin/${NETWORK}/admin.macaroon
+        /bin/lnd

@@ -1,10 +1,10 @@
 BIN_DIR=node_modules/.bin
 
 start-deps:
-	docker compose up e2e-deps -d
+	docker compose -f docker-compose.yml -f docker-compose-regtest.yml -f docker-compose.override.yml up e2e-deps -d
 
 start-deps-integration:
-	docker compose up integration-deps -d
+	docker compose -f docker-compose.yml -f docker-compose-regtest.yml -f docker-compose.override.yml up integration-deps -d
 
 update-price-history:
 	docker compose run price-history node servers/history/cron.js
@@ -30,9 +30,11 @@ start-admin-only:
 start-admin:
 	make start-okex & make start-admin-only
 
-start-trigger: start-deps
+start-trigger-only:
 	. ./.envrc && yarn tsnd --respawn --files -r tsconfig-paths/register -r src/services/tracing.ts \
 		src/servers/trigger.ts | yarn pino-pretty -c -l
+
+start-trigger: start-deps start-trigger-only
 
 start-cron: start-deps
 	. ./.envrc && yarn tsnd --files -r tsconfig-paths/register -r src/services/tracing.ts \
@@ -185,3 +187,11 @@ audit:
 mine-block:
 	container_id=$$(docker ps -q -f status=running -f name="bitcoind"); \
 	docker exec -it "$$container_id" /bin/sh -c 'ADDR=$$(bitcoin-cli getnewaddress "") && bitcoin-cli generatetoaddress 6 $$ADDR '
+
+# for testnet/signet
+
+start-deps-volume:
+	docker compose -f docker-compose.yml -f docker-compose-volume.yml -f docker-compose.override.yml up e2e-deps -d
+
+start-volume:
+	make start-okex & make start-main-only & make start-admin-only & make start-trigger-only

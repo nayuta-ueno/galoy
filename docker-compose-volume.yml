@@ -1,0 +1,54 @@
+version: "2"
+services:
+  mongodb:
+    volumes:
+      - ${PWD}/dev/mongodb:/bitnami/mongodb
+  bitcoind:
+    environment:
+      - NETWORK=${NETWORK}
+    volumes:
+      - ${PWD}/dev/bitcoind/${NETWORK}:/data/.bitcoin
+  lnd1:
+    environment:
+      - NETWORK=${NETWORK}
+    ports:
+      - "55551:8080"
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd1:/root/.lnd
+      - ${PWD}/dev/lnd/${NETWORK}/password.txt:/root/.lnd/password.txt
+    command:
+      - |
+        /bin/lnd
+  lnd2:
+    environment:
+      - NETWORK=${NETWORK}
+    ports:
+      - "55552:8080"
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd2:/root/.lnd
+      - ${PWD}/dev/lnd/${NETWORK}/password.txt:/root/.lnd/password.txt
+    command:
+      - |
+        /bin/lnd
+  lnd-outside-1:
+    environment:
+      - NETWORK=${NETWORK}
+    ports:
+      - "55553:8080"
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd-outside-1:/root/.lnd
+      - ${PWD}/dev/lnd/${NETWORK}/password.txt:/root/.lnd/password.txt
+    command:
+      - |
+        /bin/lnd
+  lnd-outside-2:
+    environment:
+      - NETWORK=${NETWORK}
+    ports:
+      - "55554:8080"
+    volumes:
+      - ${PWD}/dev/lnd/${NETWORK}/datadir-lnd-outside-2:/root/.lnd
+      - ${PWD}/dev/lnd/${NETWORK}/password.txt:/root/.lnd/password.txt
+    command:
+      - |
+        /bin/lnd

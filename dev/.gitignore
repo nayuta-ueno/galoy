@@ -6,3 +6,13 @@
 lnd/loopserver/*
 # except regtest
 !/dev/lnd/regtest/*
+
+#bitcoind/**/datadir/*
+bitcoind/**/regtest/*
+bitcoind/**/signet/*
+lnd/**/datadir-lnd*
+lnd/signet/lnd*.pubkey
+lnd/signet/lnd*.admin.macaroon
+lnd/signet/lnd*.admin.macaroon.base64
+
+mongodb/
